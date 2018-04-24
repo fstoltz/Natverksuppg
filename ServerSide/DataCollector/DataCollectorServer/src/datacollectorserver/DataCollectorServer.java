@@ -1,21 +1,38 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package datacollectorserver;
 
-/**
- *
- * @author fstoltz
- */
-public class DataCollectorServer {
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
+import java.net.*;
+import java.util.*;
+import java.io.*;
+
+
+/*This is the file where a serverSocket will be created,
+when a socket is returned, this program will immediately
+instansiate a DataGiverHandle and pass the socket as
+a parameter to the constructor, and go back to listening again.
+
+Potentielly I'll also pass the object that holds the MySQL connection
+to the constructor for the DataGiverHandle aswell.
+*/
+
+public class DataCollectorServer {
+    static int listeningPort = 37500;
+    SQLHandle sqlHandle;
+    
+    public DataCollectorServer(){
+        
     }
     
+    
+    public void startServer(){
+        
+    }
+    
+    
+    public static void main(String[] args) {
+        //create a SQLHandle and setup the connection to the MySQL server
+        
+        //Create a DataCollectorServer, call the function with
+        //the listener, that it will stay in until program exits.
+    }
 }
