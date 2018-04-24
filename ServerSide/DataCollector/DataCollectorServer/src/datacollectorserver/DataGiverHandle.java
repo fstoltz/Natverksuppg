@@ -16,6 +16,36 @@ the same method and corrupting something.*/
 
 
 
-public class DataGiverHandle {
+public class DataGiverHandle implements Runnable{
+    SQLHandle sqlHandle; //Everyone shares this object(is set in the constructor)
+    Socket dataGiverSocket;
+    
+    BufferedReader in; //inputstream from the giver socket
+    
+    public DataGiverHandle(Socket dataGiverSocket, SQLHandle sqlHandle) throws IOException{
+        this.dataGiverSocket = dataGiverSocket;
+        this.sqlHandle = sqlHandle;
+        this.in = new BufferedReader(new InputStreamReader(this.dataGiverSocket.getInputStream()));
+    }
+    
+    
+    public void parseInput(String giverString){
+        //This is where we push up the data to the MySQL Server
+    }
+    
+    
+    @Override
+    public void run(){
+        //sit in a loop waiting for input from the socket, take this input
+        //and write it into the MySQL Server
+        try {
+            String giverString;
+            while((giverString = in.readLine()) != null){
+                this.parseInput(giverString);
+            }
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+    }
     
 }
