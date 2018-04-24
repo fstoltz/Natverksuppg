@@ -4,6 +4,7 @@ package datacollectorserver;
 import java.net.*;
 import java.util.*;
 import java.io.*;
+import java.sql.SQLException;
 
 
 /*This is the file where a serverSocket will be created,
@@ -20,7 +21,7 @@ public class DataCollectorServer {
     SQLHandle sqlHandle;
     ServerSocket serverSocket;
     
-    public DataCollectorServer(){
+    public DataCollectorServer() throws SQLException{
         this.sqlHandle = new SQLHandle();
     }
     
@@ -29,7 +30,9 @@ public class DataCollectorServer {
         this.serverSocket = new ServerSocket(this.listeningPort);
         
         while(true){
+            System.out.println("Listening...");
             Socket dataGiverSocket = this.serverSocket.accept();
+            System.out.println("I got a socket!");
             DataGiverHandle dataGiverHandle = new DataGiverHandle(dataGiverSocket, this.sqlHandle);
             Thread newGiverThread = new Thread(dataGiverHandle);
             newGiverThread.start();
@@ -37,7 +40,7 @@ public class DataCollectorServer {
     }
     
     
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, SQLException {
         //Create a DataCollectorServer, call the function with
         //the listener, that it will stay in until program exits.
         DataCollectorServer dataCollectorServer = new DataCollectorServer();

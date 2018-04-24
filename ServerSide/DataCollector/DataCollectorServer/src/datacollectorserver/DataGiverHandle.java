@@ -29,10 +29,6 @@ public class DataGiverHandle implements Runnable{
     }
     
     
-    public void parseInput(String giverString){
-        //This is where we push up the data to the MySQL Server
-    }
-    
     
     @Override
     public void run(){
@@ -41,7 +37,7 @@ public class DataGiverHandle implements Runnable{
         try {
             String giverString;
             while((giverString = in.readLine()) != null){
-                this.parseInput(giverString);
+                this.sqlHandle.parseInput(giverString);
             }
         } catch(Exception e){
             e.printStackTrace();
