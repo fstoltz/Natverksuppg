@@ -17,7 +17,7 @@ public class EndpointUpdater implements Runnable{
     
     synchronized public String getCurrentSQLValues() throws SQLException, ClassNotFoundException{
         Class.forName("com.mysql.jdbc.Driver");
-        Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/sensorlogs", "root", "nacka17");
+        Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/sensorlogs?autoReconnect=true&useSSL=false", "root", "nacka17");
         Statement stmt = (Statement) con.createStatement();
         ResultSet rs = stmt.executeQuery("SELECT * FROM livetempdata;");
         
