@@ -3,12 +3,12 @@ package ServerSide;
 import java.net.*;
 import java.util.*;
 import java.io.*;
+import java.sql.Connection;
 import javax.websocket.Session;
-import com.mysql.jdbc.Connection;
-import com.mysql.jdbc.Statement;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 
 public class EndpointUpdater implements Runnable{
