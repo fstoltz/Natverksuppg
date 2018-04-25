@@ -55,8 +55,8 @@ public class SQLHandle {
     
     public static void main(String[] args) throws SQLException{
         SQLHandle sql = new SQLHandle();
-        sql.parseInput("Anton:44.36");
-        sql.parseInput("Kevin:88.31");
+        sql.parseInput("Anton:41.36");
+        sql.parseInput("Kevin:83.31");
     }
     
 }
