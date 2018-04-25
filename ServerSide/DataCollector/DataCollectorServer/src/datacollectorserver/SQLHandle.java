@@ -25,7 +25,7 @@ public class SQLHandle {
     
     public SQLHandle() throws SQLException{
         //Setup the connection to the MySQL Server
-        this.con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/sensorlogs", "root", "nacka17");
+        this.con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/sensorlogs?autoReconnect=true&useSSL=false", "root", "nacka17");
         
         /*
         Write code here that creates a database if it doesn't exist.
