@@ -1,13 +1,15 @@
 package datacollectorserver;
 
 
-import com.mysql.jdbc.Connection;
-import com.mysql.jdbc.Statement;
+//import com.mysql.jdbc.Connection;
+//import com.mysql.jdbc.Statement;
 import java.net.*;
 import java.util.*;
 import java.io.*;
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 
 
@@ -24,6 +26,12 @@ public class SQLHandle {
     public SQLHandle() throws SQLException{
         //Setup the connection to the MySQL Server
         this.con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/sensorlogs", "root", "nacka17");
+        
+        /*
+        Write code here that creates a database if it doesn't exist.
+        Then creates all the necessary tables.
+        and inputs some 'dummy' values
+        */
     }
     
     //Synchronized so there are no collisions between Giver threads
@@ -55,8 +63,8 @@ public class SQLHandle {
     
     public static void main(String[] args) throws SQLException{
         SQLHandle sql = new SQLHandle();
-        sql.parseInput("Anton:41.36");
-        sql.parseInput("Kevin:83.31");
+        sql.parseInput("Anton:11.36");
+        sql.parseInput("Kevin:33.31");
     }
     
 }
