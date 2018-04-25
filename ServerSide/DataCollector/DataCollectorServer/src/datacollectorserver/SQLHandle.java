@@ -11,7 +11,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-
+//THIS CODE IS 'COMPILABLE' ON HOME-SERVER(in relation to JDBC Driver / imports etc, it was a bit tricky)
 
 /*This class will create a connection to the MySQL server(lati).
 Will function as a Singleton, i.e only one instance.
