@@ -50,12 +50,13 @@ public class SQLHandle {
         
         Statement stmt = (Statement) con.createStatement();
         stmt.executeUpdate("INSERT INTO `sensorlogs`.`tempdata` (`name`, `value`) VALUES ('"+nameOfSender+"', '"+temperatureVal+"');");
+        stmt.executeUpdate("UPDATE `sensorlogs`.`livetempdata` SET `value`='"+temperatureVal+"' WHERE `name`='"+nameOfSender+"';");
     }
     
     public static void main(String[] args) throws SQLException{
         SQLHandle sql = new SQLHandle();
-        sql.parseInput("Fredrik:21.36");
-        sql.parseInput("Kevin:89.3112");
+        sql.parseInput("Anton:44.36");
+        sql.parseInput("Kevin:88.31");
     }
     
 }
