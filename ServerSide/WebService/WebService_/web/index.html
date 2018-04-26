@@ -1,4 +1,70 @@
+<style>
+    table, th, td {
+        border: 1px solid black;
+        padding: 3px;
+        margin-top: 10px;
+        margin: 10px;
+        font-family: "Consolas";
+    }
+    
+    #tempVal {
+        color: blue;
+    }
+</style>
+
 <script src="websocket.js"></script>
-<p>Fiskekyrka</p>
+<button onclick="connect()">Connect</button>
+
+
+<button onclick="getHistory()">Retrieve history</button>
+
+
+<table id="historyTable">
+    
+    <!---
+    <th>Name</th>
+    <th>Value</th>
+    
+    <th>Timestamp</th>
+
+    i need to create a table row(tr)
+    then add three td
+    then finish with a ending </tr>
+    -->
+</table>
+
+<!--<script src="websocket.js"></script>
+<style>
+table th {
+    text-align: left;
+    display: table-cell;
+    width: 20%;
+}
+</style>
+
+<p>Temperaturen just nu hos personalen</p>
 <button onclick="connect()">Connect</button>
 <p id="textbox1"> </p>
+<p id="textbox2"> </p>
+<p id="textbox3"> </p>
+<p id="textbox4"> </p>
+<p id="textbox5"> </p>
+<p id="textbox6"> </p>
+
+<p>Historisk TemperaturData</p>
+<button onclick="historicalData()">HistoricalData</button>
+<p id="historiskTextbox1"> </p>
+
+<button onclick="getHistry()">getHistory</button>
+<p id="hinstoryTextbox"> </p>
+
+
+
+<table id="myTable"></table>
+
+
+
+
+
+
+-->
