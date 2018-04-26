@@ -1,6 +1,15 @@
 <style>
+    * {
+        background-color: black;
+        color: white;
+    }
+    
+    .button {
+        font-size: 1.5em;
+    }
+    
     table, th, td {
-        border: 1px solid black;
+        border: 1px solid grey;
         padding: 3px;
         margin-top: 10px;
         margin: 10px;
@@ -8,15 +17,36 @@
     }
     
     #tempVal {
-        color: blue;
+        color: cyan;
+        padding-left:1.5em;
+        padding-right:1.5em;
+    }
+    
+    .realTimeValues {
+        color:cyan;
+        display:inline;
+        padding-right:2.5em;
+        font-family:"Consolas";
+    }
+    
+    #everything {
+        margin-left:30%;
     }
 </style>
 
 <script src="websocket.js"></script>
-<button onclick="connect()">Connect</button>
+<div id="everything">
+<h2 id="realTime1Name" class="realTimeValues"></h2>
+<h2 id="realTime1Val" class="realTimeValues"></h2><br>
+<h2 id="realTime2Name" class="realTimeValues"></h2>
+<h2 id="realTime2Val" class="realTimeValues"></h2><br>
+<h2 id="realTime3Name" class="realTimeValues"></h2>
+<h2 id="realTime3Val" class="realTimeValues"></h2><br>
+
+<button id="connectButton" class="button" onclick="connect()">Connect</button>
 
 
-<button onclick="getHistory()">Retrieve history</button>
+<button class="button" onclick="getHistory()">Retrieve history</button>
 
 
 <table id="historyTable">
@@ -32,7 +62,7 @@
     then finish with a ending </tr>
     -->
 </table>
-
+</div>
 <!--<script src="websocket.js"></script>
 <style>
 table th {

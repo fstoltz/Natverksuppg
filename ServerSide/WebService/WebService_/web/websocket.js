@@ -4,6 +4,8 @@ var ws;
 function connect(){
     ws = new WebSocket("ws://2.248.81.16:8080/WebService_/panel");
     console.log("Connected to WebSocket!");
+    document.getElementById("connectButton").innerHTML = "Connected!";
+    document.getElementById("connectButton").style.color = "#7FFF00";
     ws.onmessage = handleMessage;
 }
 
@@ -42,7 +44,14 @@ function handleMessage(event){
         }
         
     } else { //it's a normal update
-        
+        document.getElementById("realTime1Name").innerHTML=json[0]
+        document.getElementById("realTime1Val").innerHTML=json[1]+" celsius";
+        document.getElementById("realTime2Name").innerHTML=json[2]
+        document.getElementById("realTime2Val").innerHTML=json[3]+" celsius";
+        document.getElementById("realTime3Name").innerHTML=json[4]
+        document.getElementById("realTime3Val").innerHTML=json[5]+" celsius";
+        /*document.getElementById("realTime2").innerHTML=json[2]+" "+json[3]+" celsius";
+        document.getElementById("realTime3").innerHTML=json[4]+" "+json[5]+" celsius";*/
     }
 }
 
