@@ -35,8 +35,9 @@ public class EndpointUpdater implements Runnable{
         while(rs.next()){
             name = rs.getString("name");
             val = rs.getDouble("value");
-            String together = name + String.valueOf(val);
-            result.add(together);
+            //String together = name + String.valueOf(val);
+            result.add(name);
+            result.add(String.valueOf(val));
         }
         
         con.close();
