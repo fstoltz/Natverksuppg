@@ -17,7 +17,7 @@ to the constructor for the DataGiverHandle aswell.
 */
 
 public class DataCollectorServer {
-    int listeningPort = 37500;
+    int listeningPort = 44321;
     SQLHandle sqlHandle;
     ServerSocket serverSocket;
     
