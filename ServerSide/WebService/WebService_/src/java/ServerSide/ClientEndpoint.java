@@ -63,6 +63,8 @@ public class ClientEndpoint {
         
         ArrayList<String> result = new ArrayList<>(); //this will be sent to the JavaScript websocket
         
+        result.add("HISTORY_INC");
+        
         String name;
         double val;
         Timestamp date;
@@ -80,8 +82,8 @@ public class ClientEndpoint {
         Gson gson = new Gson();
         String jsonString = gson.toJson(result);
         
-        
-        this.session.getBasicRemote().sendObject(jsonString);
+        //this.session.getBasicRemote().sendObject("HISTORY_INC"); //in order for client to know what type of data is coming
+        this.session.getBasicRemote().sendObject(jsonString); //sending all history
     }
     
     @OnClose
