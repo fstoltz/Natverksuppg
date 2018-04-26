@@ -1,5 +1,6 @@
 package ServerSide;
 
+import com.google.gson.Gson;
 import java.net.*;
 import java.util.*;
 import java.io.*;
@@ -15,9 +16,9 @@ public class EndpointUpdater implements Runnable{
     private Session session;
     //private static final Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/sensorlogs", "root", "nacka17");
     
-    synchronized public ArrayList<String> getCurrentSQLValues() throws SQLException, ClassNotFoundException{
+    synchronized public String getCurrentSQLValues() throws SQLException, ClassNotFoundException{
         Class.forName("com.mysql.jdbc.Driver");
-        Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/sensorlogs?autoReconnect=true&useSSL=false", "root", "nacka17");
+        Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/sensorlogs?autoReconnect=true&useSSL=false", "iot17", "nackademin123");
         Statement stmt = (Statement) con.createStatement();
         ResultSet rs = stmt.executeQuery("SELECT * FROM livetempdata;");
         
@@ -39,8 +40,10 @@ public class EndpointUpdater implements Runnable{
         }
         
         con.close();
+        Gson gson = new Gson();
+        String jsonString = gson.toJson(result);
         
-        return result;
+        return jsonString;
         /*ENCODING PART*/
     }
     
