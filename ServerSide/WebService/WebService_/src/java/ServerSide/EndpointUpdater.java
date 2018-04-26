@@ -15,9 +15,9 @@ public class EndpointUpdater implements Runnable{
     private Session session;
     //private static final Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/sensorlogs", "root", "nacka17");
     
-    synchronized public String getCurrentSQLValues() throws SQLException, ClassNotFoundException{
+    synchronized public ArrayList<String> getCurrentSQLValues() throws SQLException, ClassNotFoundException{
         Class.forName("com.mysql.jdbc.Driver");
-        Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/sensorlogs?autoReconnect=true&useSSL=false", "iot17", "nackademin123");
+        Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/sensorlogs?autoReconnect=true&useSSL=false", "root", "nacka17");
         Statement stmt = (Statement) con.createStatement();
         ResultSet rs = stmt.executeQuery("SELECT * FROM livetempdata;");
         
@@ -40,7 +40,7 @@ public class EndpointUpdater implements Runnable{
         
         con.close();
         
-        return result.toString();
+        return result;
         /*ENCODING PART*/
     }
     
