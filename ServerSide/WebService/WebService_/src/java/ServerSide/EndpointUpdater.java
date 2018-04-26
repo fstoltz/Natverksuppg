@@ -17,7 +17,7 @@ public class EndpointUpdater implements Runnable{
     
     synchronized public String getCurrentSQLValues() throws SQLException, ClassNotFoundException{
         Class.forName("com.mysql.jdbc.Driver");
-        Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/sensorlogs?autoReconnect=true&useSSL=false", "iot17", "nackademin");
+        Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/sensorlogs?autoReconnect=true&useSSL=false", "iot17", "nackademin123");
         Statement stmt = (Statement) con.createStatement();
         ResultSet rs = stmt.executeQuery("SELECT * FROM livetempdata;");
         
@@ -26,6 +26,7 @@ public class EndpointUpdater implements Runnable{
         //be sent to the client. Then we maybe can decode it somehow client-side
         //or just show it as plain text
         
+        /*ENCODING PART*/
         ArrayList<String> result = new ArrayList<>(); //this will be sent to the JavaScript websocket
         
         String name;
@@ -40,6 +41,7 @@ public class EndpointUpdater implements Runnable{
         con.close();
         
         return result.toString();
+        /*ENCODING PART*/
     }
     
     
