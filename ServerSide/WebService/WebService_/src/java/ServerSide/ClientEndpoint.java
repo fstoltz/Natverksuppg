@@ -1,6 +1,16 @@
 package ServerSide;
 
+import com.google.gson.Gson;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 import javax.websocket.EncodeException;
@@ -41,12 +51,37 @@ public class ClientEndpoint {
     }
     
     @OnMessage
-    public void onMessage(String message, Session session){
+    public void onMessage(String message, Session session) throws IOException, EncodeException, SQLException{
         /*This method will probably be the place where
         a request for 'Historical Values' are recevied from
         the client, and then we retreive values from the SQL
         database and send these back to the client(using sendToEndpoint)
         where DOM manipulation is made to fill the html table with relevant data*/
+        Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/sensorlogs?autoReconnect=true&useSSL=false", "iot17", "nackademin123");
+        Statement stmt = (Statement) con.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT * FROM tempdata;");
+        
+        ArrayList<String> result = new ArrayList<>(); //this will be sent to the JavaScript websocket
+        
+        String name;
+        double val;
+        Timestamp date;
+        while(rs.next()){
+            name = rs.getString("name");
+            val = rs.getDouble("value");
+            date = rs.getTimestamp("timestamp");
+            //String together = name + String.valueOf(val);
+            result.add(name);
+            result.add(String.valueOf(val));
+            result.add(date.toString());
+        }
+        
+        con.close();
+        Gson gson = new Gson();
+        String jsonString = gson.toJson(result);
+        
+        
+        this.session.getBasicRemote().sendObject(jsonString);
     }
     
     @OnClose
