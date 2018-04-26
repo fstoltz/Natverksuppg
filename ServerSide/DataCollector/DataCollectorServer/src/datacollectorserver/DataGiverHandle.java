@@ -26,6 +26,8 @@ public class DataGiverHandle implements Runnable{
         this.dataGiverSocket = dataGiverSocket;
         this.sqlHandle = sqlHandle;
         this.in = new BufferedReader(new InputStreamReader(this.dataGiverSocket.getInputStream()));
+        /*Create a socket outstream here with port 45000, when something gets in, send
+        it to localhost at 45000 and also write it to the sql history table*/
     }
     
     
