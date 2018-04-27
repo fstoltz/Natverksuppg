@@ -39,6 +39,13 @@ public class DataGiverHandle implements Runnable{
         try {
             String giverString;
             while((giverString = in.readLine()) != null){
+                
+                /*Om stränge är "WEBSOCKET" lägg till denna klient
+                till listan av uppkopplade websockets*/
+                if(giverString.equalsIgnoreCase("WEBSOCKET")){
+                    //m.addOutputStream(this.dataGiverSocket.getOutputSteam());
+                }
+                
                 this.sqlHandle.parseInput(giverString);
             }
         } catch(Exception e){
