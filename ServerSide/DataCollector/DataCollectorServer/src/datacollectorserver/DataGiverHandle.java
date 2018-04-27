@@ -46,7 +46,8 @@ public class DataGiverHandle implements Runnable{
                 till listan av uppkopplade websockets*/
                 if(giverString.equalsIgnoreCase("WEBSOCKET")){
                     //m.addOutputStream(this.dataGiverSocket.getOutputSteam());
-                    this.m.addOutputStream((ObjectOutputStream) this.dataGiverSocket.getOutputStream());
+                    ObjectOutputStream objOut = new ObjectOutputStream(this.dataGiverSocket.getOutputStream());
+                    this.m.addOutputStream(objOut);
                 } else { //this means the message received is normal data from a sensor
                     this.sqlHandle.parseInput(giverString);
                     this.m.sendToEveryone(giverString);
