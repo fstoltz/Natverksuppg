@@ -4,6 +4,11 @@
         color: white;
     }
     
+    #realTimeTitle {
+        font-family: "Consolas";
+        color: pink;
+    }
+    
     .button {
         font-size: 1.5em;
     }
@@ -27,21 +32,20 @@
         display:inline;
         padding-right:2.5em;
         font-family:"Consolas";
+        font-size:1.5em;
     }
     
     #everything {
         margin-left:30%;
     }
 </style>
+<body>
 
 <script src="websocket.js"></script>
 <div id="everything">
-<h2 id="realTime1Name" class="realTimeValues"></h2>
-<h2 id="realTime1Val" class="realTimeValues"></h2><br>
-<h2 id="realTime2Name" class="realTimeValues"></h2>
-<h2 id="realTime2Val" class="realTimeValues"></h2><br>
-<h2 id="realTime3Name" class="realTimeValues"></h2>
-<h2 id="realTime3Val" class="realTimeValues"></h2><br>
+<div id="realTime">
+    
+</div>
 
 <button id="connectButton" class="button" onclick="connect()">Connect</button>
 
@@ -50,19 +54,9 @@
 
 
 <table id="historyTable">
-    
-    <!---
-    <th>Name</th>
-    <th>Value</th>
-    
-    <th>Timestamp</th>
-
-    i need to create a table row(tr)
-    then add three td
-    then finish with a ending </tr>
-    -->
 </table>
 </div>
+</body>
 <!--<script src="websocket.js"></script>
 <style>
 table th {

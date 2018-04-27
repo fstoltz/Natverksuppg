@@ -1,12 +1,18 @@
 var ws;
-
+var pressedConnect = 0;
+var isConnected = 0;
+var numberOfEntries = 0;
 
 function connect(){
-    ws = new WebSocket("ws://2.248.81.16:8080/WebService_/panel");
-    console.log("Connected to WebSocket!");
-    document.getElementById("connectButton").innerHTML = "Connected!";
-    document.getElementById("connectButton").style.color = "#7FFF00";
-    ws.onmessage = handleMessage;
+    if(isConnected == 0){
+        ws = new WebSocket("ws://2.248.81.16:8080/WebService_/panel");
+        console.log("Connected to WebSocket!");
+        pressedConnect = 1;
+        isConnected = 1;
+        document.getElementById("connectButton").innerHTML = "Connected!";
+        document.getElementById("connectButton").style.color = "#7FFF00";
+        ws.onmessage = handleMessage;
+    }
 }
 
 
@@ -44,14 +50,58 @@ function handleMessage(event){
         }
         
     } else { //it's a normal update
+        console.log(json.length);
+        var j;
+        var list = document.getElementById("realTime");
+        var sq = document.getElementById("everything")
+        if(pressedConnect == 1){
+            
+            for(j = 0; j < json.length;){
+                var realTimeEntry = document.createElement("p");
+                var data = document.createTextNode(json[j] + "  " + json[j+1]);
+                realTimeEntry.id = numberOfEntries;
+                realTimeEntry.className = "realTimeValues";
+                realTimeEntry.appendChild(data);
+                var linebreak = document.createElement("br");
+                realTimeEntry.appendChild(linebreak);
+                //document.body.appendChild(btn);
+                list.insertBefore(realTimeEntry, list.childNodes[0]);
+                j = j + 2; //because we want to jump two steps each iteration. --Name Value-- --Name Value---
+                numberOfEntries++;
+            }
+            var realTimeHeader = document.createElement("h2");
+            realTimeHeader.innerHTML = "REALTIME VALUES";
+            realTimeHeader.id = "realTimeTitle";
+            sq.insertBefore(realTimeHeader, sq.childNodes[0]);
+            pressedConnect = 0;
+        } else {
+            console.log(numberOfEntries);
+            var c;
+            var a = 0;
+            for(c = 0; c < numberOfEntries; c++){
+                document.getElementById(c).innerHTML = json[a] + " " + json[a+1] + "<br>";
+                a = a + 2;
+            }
+        }
+        
+        /*var realTimeDiv = document.createElement("div"); 
+        var c;
+        for(c = 0; c < json.length; i++){
+            var btn = document.createElement("BUTTON");
+            var t = document.createTextNode("CLICK ME");
+            btn.appendChild(t);
+            document.body.appendChild(btn);
+        }*/
+        /*
         document.getElementById("realTime1Name").innerHTML=json[0]
         document.getElementById("realTime1Val").innerHTML=json[1]+" celsius";
         document.getElementById("realTime2Name").innerHTML=json[2]
         document.getElementById("realTime2Val").innerHTML=json[3]+" celsius";
         document.getElementById("realTime3Name").innerHTML=json[4]
         document.getElementById("realTime3Val").innerHTML=json[5]+" celsius";
-        /*document.getElementById("realTime2").innerHTML=json[2]+" "+json[3]+" celsius";
-        document.getElementById("realTime3").innerHTML=json[4]+" "+json[5]+" celsius";*/
+        */
+        //document.getElementById("realTime2").innerHTML=json[2]+" "+json[3]+" celsius";
+        //document.getElementById("realTime3").innerHTML=json[4]+" "+json[5]+" celsius";
     }
 }
 
