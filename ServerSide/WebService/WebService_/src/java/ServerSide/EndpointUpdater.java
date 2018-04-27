@@ -62,12 +62,12 @@ public class EndpointUpdater implements Runnable{
             BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
             
             PrintWriter out = new PrintWriter(s.getOutputStream());
-            out.print("WEBSOCKET");
+            out.println("WEBSOCKET");
             out.flush();
             
             while(true){
                 this.session.getBasicRemote().sendObject(in.readLine());
-                Thread.sleep(3000);
+                //Thread.sleep(3000);
             }
         } catch (Exception e) {
             e.printStackTrace();
