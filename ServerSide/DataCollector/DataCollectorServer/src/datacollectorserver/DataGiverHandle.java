@@ -21,11 +21,13 @@ public class DataGiverHandle implements Runnable{
     Socket dataGiverSocket;
     
     BufferedReader in; //inputstream from the giver socket
+    Master m;
     
-    public DataGiverHandle(Socket dataGiverSocket, SQLHandle sqlHandle) throws IOException{
+    public DataGiverHandle(Socket dataGiverSocket, SQLHandle sqlHandle, Master m) throws IOException{
         this.dataGiverSocket = dataGiverSocket;
         this.sqlHandle = sqlHandle;
         this.in = new BufferedReader(new InputStreamReader(this.dataGiverSocket.getInputStream()));
+        this.m = m;
         /*Create a socket outstream here with port 45000, when something gets in, send
         it to localhost at 45000 and also write it to the sql history table*/
     }
@@ -44,9 +46,13 @@ public class DataGiverHandle implements Runnable{
                 till listan av uppkopplade websockets*/
                 if(giverString.equalsIgnoreCase("WEBSOCKET")){
                     //m.addOutputStream(this.dataGiverSocket.getOutputSteam());
+                    this.m.addOutputStream((ObjectOutputStream) this.dataGiverSocket.getOutputStream());
+                } else { //this means the message received is normal data from a sensor
+                    this.sqlHandle.parseInput(giverString);
+                    this.m.sendToEveryone(giverString);
                 }
                 
-                this.sqlHandle.parseInput(giverString);
+                
             }
         } catch(Exception e){
             e.printStackTrace();

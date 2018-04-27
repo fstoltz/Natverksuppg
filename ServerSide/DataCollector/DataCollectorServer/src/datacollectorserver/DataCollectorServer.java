@@ -20,9 +20,11 @@ public class DataCollectorServer {
     int listeningPort = 44321;
     SQLHandle sqlHandle;
     ServerSocket serverSocket;
+    Master m;
     
     public DataCollectorServer() throws SQLException{
         this.sqlHandle = new SQLHandle();
+        this.m = new Master();
     }
     
     
@@ -33,7 +35,7 @@ public class DataCollectorServer {
             System.out.println("Listening...");
             Socket dataGiverSocket = this.serverSocket.accept();
             System.out.println("I got a socket!");
-            DataGiverHandle dataGiverHandle = new DataGiverHandle(dataGiverSocket, this.sqlHandle);
+            DataGiverHandle dataGiverHandle = new DataGiverHandle(dataGiverSocket, this.sqlHandle, this.m);
             Thread newGiverThread = new Thread(dataGiverHandle);
             newGiverThread.start();
         }
