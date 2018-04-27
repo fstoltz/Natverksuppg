@@ -1,4 +1,18 @@
 var ws;
+
+
+function connect(){
+    ws = new WebSocket("ws://2.248.81.16:8080/WebService_/panel");
+    console.log("Connected to WebSocket!");
+    ws.onmessage = handleMessage;
+}
+
+
+function handleMessage(event){
+    console.log("Received: " + event.data);
+}
+
+/*var ws;
 var pressedConnect = 0;
 var isConnected = 0;
 var numberOfEntries = 0;
@@ -83,7 +97,7 @@ function handleMessage(event){
                 a = a + 2;
             }
         }
-        
+        */
         /*var realTimeDiv = document.createElement("div"); 
         var c;
         for(c = 0; c < json.length; i++){
@@ -99,7 +113,7 @@ function handleMessage(event){
         document.getElementById("realTime2Val").innerHTML=json[3]+" celsius";
         document.getElementById("realTime3Name").innerHTML=json[4]
         document.getElementById("realTime3Val").innerHTML=json[5]+" celsius";
-        */
+       
         //document.getElementById("realTime2").innerHTML=json[2]+" "+json[3]+" celsius";
         //document.getElementById("realTime3").innerHTML=json[4]+" "+json[5]+" celsius";
     }
@@ -109,7 +123,7 @@ function getHistory(){
     ws.send("GET_HISTORY");
 }
 
-
+ */
 
 
 
