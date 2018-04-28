@@ -58,7 +58,7 @@ public class SQLHandle {
         
         Statement stmt = (Statement) con.createStatement();
         stmt.executeUpdate("INSERT INTO `sensorlogs`.`tempdata` (`name`, `value`) VALUES ('"+nameOfSender+"', '"+temperatureVal+"');");
-        stmt.executeUpdate("UPDATE `sensorlogs`.`livetempdata` SET `value`='"+temperatureVal+"' WHERE `name`='"+nameOfSender+"';");
+        //stmt.executeUpdate("UPDATE `sensorlogs`.`livetempdata` SET `value`='"+temperatureVal+"' WHERE `name`='"+nameOfSender+"';");
     }
     
     public static void main(String[] args) throws SQLException{

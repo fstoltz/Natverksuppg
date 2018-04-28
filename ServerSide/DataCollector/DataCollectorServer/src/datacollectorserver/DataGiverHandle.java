@@ -23,9 +23,14 @@ public class DataGiverHandle implements Runnable{
     BufferedReader in; //inputstream from the giver socket
     Master m;
     
+    ObjectOutputStream objOut;
+    
     public DataGiverHandle(Socket dataGiverSocket, SQLHandle sqlHandle, Master m) throws IOException{
         this.dataGiverSocket = dataGiverSocket;
         this.sqlHandle = sqlHandle;
+        
+        this.objOut = new ObjectOutputStream(this.dataGiverSocket.getOutputStream());
+        
         this.in = new BufferedReader(new InputStreamReader(this.dataGiverSocket.getInputStream()));
         this.m = m;
         /*Create a socket outstream here with port 45000, when something gets in, send
@@ -41,19 +46,18 @@ public class DataGiverHandle implements Runnable{
         try {
             String giverString;
             while((giverString = in.readLine()) != null){
-                
+                //giverString="Anton:23.75" ---> mastern ska skicka ut till alla
+                //om detta var på begäran av en webbsocket, så ska den läggas till i listan av webbklienter
                 /*Om stränge är "WEBSOCKET" lägg till denna klient
                 till listan av uppkopplade websockets*/
                 if(giverString.equalsIgnoreCase("WEBSOCKET")){
                     //m.addOutputStream(this.dataGiverSocket.getOutputSteam());
-                    ObjectOutputStream objOut = new ObjectOutputStream(this.dataGiverSocket.getOutputStream());
-                    this.m.addOutputStream(objOut);
+                    //ObjectOutputStream objOut = new ObjectOutputStream(this.dataGiverSocket.getOutputStream());
+                    this.m.addOutputStream(this.objOut);
                 } else { //this means the message received is normal data from a sensor
                     this.sqlHandle.parseInput(giverString);
                     this.m.sendToEveryone(giverString);
                 }
-                
-                
             }
         } catch(Exception e){
             e.printStackTrace();

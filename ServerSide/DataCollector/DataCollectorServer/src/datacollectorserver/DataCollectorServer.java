@@ -33,7 +33,7 @@ public class DataCollectorServer {
         
         while(true){
             System.out.println("Listening...");
-            Socket dataGiverSocket = this.serverSocket.accept();
+            Socket dataGiverSocket = this.serverSocket.accept(); //datagiversocket or a websocketupdatersocket
             System.out.println("I got a socket!");
             DataGiverHandle dataGiverHandle = new DataGiverHandle(dataGiverSocket, this.sqlHandle, this.m);
             Thread newGiverThread = new Thread(dataGiverHandle);

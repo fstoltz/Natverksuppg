@@ -9,16 +9,16 @@ public class Master {
     List<ObjectOutputStream> listOfOutStreams = new ArrayList<>();
     
     
-    
-    public void addOutputStream(ObjectOutputStream newStream){
-        listOfOutStreams.add(newStream);
+    //added synchronized because several object might calll this method at the same time
+    synchronized public void addOutputStream(ObjectOutputStream newStream){
+        this.listOfOutStreams.add(newStream);
     }
     
     
-        
-    public void sendToEveryone(String clientString) throws IOException{
+    //added synchronized because several object might calll this method at the same time
+    synchronized public void sendToEveryone(String clientString) throws IOException{
         int count = 0;
-        for (ObjectOutputStream out : listOfOutStreams) {
+        for (ObjectOutputStream out : this.listOfOutStreams) {
             out.writeObject(clientString);
             out.flush();
             count++;
