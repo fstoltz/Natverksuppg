@@ -53,8 +53,9 @@ public class SQLHandle {
             }
         }
         
-        System.out.println(">>> Name of Sender: " + nameOfSender);
-        System.out.println(">>> Value:\t" + temperatureVal);
+        System.out.println(">>> Raw    : " + giverString);
+        System.out.println(">>> Sender : " + nameOfSender);
+        System.out.println(">>> Value  : " + temperatureVal);
         
         Statement stmt = (Statement) con.createStatement();
         stmt.executeUpdate("INSERT INTO `sensorlogs`.`tempdata` (`name`, `value`) VALUES ('"+nameOfSender+"', '"+temperatureVal+"');");

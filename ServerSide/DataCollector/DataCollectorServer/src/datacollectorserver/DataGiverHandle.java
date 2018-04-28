@@ -54,7 +54,7 @@ public class DataGiverHandle implements Runnable{
                     //m.addOutputStream(this.dataGiverSocket.getOutputSteam());
                     //ObjectOutputStream objOut = new ObjectOutputStream(this.dataGiverSocket.getOutputStream());
                     this.m.addOutputStream(this.objOut);
-                    System.out.println("> Added a 'Endpoint/WebSocket' client!");
+                    System.out.println("> Added a 'Endpoint/WebSocket' client!\n");
                 } else { //this means the message received is normal data from a sensor
                     this.sqlHandle.parseInput(giverString);
                     this.m.sendToEveryone(giverString);

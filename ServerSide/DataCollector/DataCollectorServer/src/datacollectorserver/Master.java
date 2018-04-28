@@ -27,6 +27,6 @@ public class Master {
             out.flush();
             count++;
         }
-        System.out.println("> Sent a message to " + count + " streams.");
+        System.out.println("> Sent a message to " + count + " streams.\n");
     }
 }
