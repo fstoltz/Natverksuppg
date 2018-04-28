@@ -20,7 +20,7 @@ public class SimulatedDataGiver {
     public void startGeneratingData() throws InterruptedException{
         while(true){
             float dbl = rand.nextFloat();
-            out.println("SimulatedFred:"+String.valueOf(dbl));
+            out.println("SimulatedFred:" + String.valueOf(dbl));
             out.flush();
             Thread.sleep(5000);
         }
