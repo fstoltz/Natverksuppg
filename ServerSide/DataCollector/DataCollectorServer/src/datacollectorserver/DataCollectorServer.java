@@ -32,9 +32,9 @@ public class DataCollectorServer {
         this.serverSocket = new ServerSocket(this.listeningPort);
         
         while(true){
-            System.out.println("Listening...");
+            System.out.println("> Listening on "+this.listeningPort+"...");
             Socket dataGiverSocket = this.serverSocket.accept(); //datagiversocket or a websocketupdatersocket
-            System.out.println("I got a socket!");
+            System.out.println("> Received a socket!");
             DataGiverHandle dataGiverHandle = new DataGiverHandle(dataGiverSocket, this.sqlHandle, this.m);
             Thread newGiverThread = new Thread(dataGiverHandle);
             newGiverThread.start();

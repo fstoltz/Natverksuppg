@@ -22,11 +22,11 @@ public class Master {
     public void sendToEveryone(String clientString) throws IOException{
         int count = 0;
         for (ObjectOutputStream out : this.listOfOutStreams) {
-            System.out.println("clientString: " + clientString);
+            //System.out.println("clientString: " + clientString);
             out.writeObject(clientString);
             out.flush();
             count++;
         }
-        System.out.println("Sent a message to " + count + "streams.");
+        System.out.println("> Sent a message to " + count + " streams.");
     }
 }
