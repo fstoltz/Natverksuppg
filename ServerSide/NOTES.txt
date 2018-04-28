@@ -17,3 +17,9 @@ CREATE TABLE `tempdata` (
   `timestamp` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+
+
+The problem with integrating the DataCollectorServer into the WebService as a 'single project'
+is that the deployed .war file never really 'runs'. It just puts compiled java files into a folder.
+This means that we can't 'start' the datacollectorserver by deploying the WebService.
+It seems like the datacollecsserver has to be 'started' individually(separately).
