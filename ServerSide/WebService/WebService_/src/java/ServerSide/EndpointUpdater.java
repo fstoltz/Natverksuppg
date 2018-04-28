@@ -60,14 +60,17 @@ public class EndpointUpdater implements Runnable{
             Socket s = new Socket(InetAddress.getByName("huerty.com"), 44321);
             //We only want to get input from this socket
             PrintWriter out = new PrintWriter(s.getOutputStream());
-            BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
+            
+            
+            ObjectInputStream in = new ObjectInputStream(s.getInputStream());
+            //BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
             
             out.println("WEBSOCKET");
             out.flush();
             
             while(true){
                 //this.session.getBasicRemote().sendObject(in.readLine());
-                this.session.getBasicRemote().sendText(in.readLine().toString());
+                this.session.getBasicRemote().sendObject(in.readObject());
                 //Thread.sleep(3000);
                 
             }
