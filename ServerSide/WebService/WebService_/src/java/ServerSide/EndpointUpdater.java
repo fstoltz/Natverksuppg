@@ -66,7 +66,8 @@ public class EndpointUpdater implements Runnable{
             out.flush();
             
             while(true){
-                this.session.getBasicRemote().sendObject(in.readLine());
+                //this.session.getBasicRemote().sendObject(in.readLine());
+                this.session.getBasicRemote().sendText(in.readLine().toString());
                 //Thread.sleep(3000);
                 
             }
