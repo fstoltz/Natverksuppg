@@ -65,12 +65,13 @@ public class EndpointUpdater implements Runnable{
             ObjectInputStream in = new ObjectInputStream(s.getInputStream());
             //BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
             
-            out.println("WEBSOCKET");
+            out.println("WEBSOCKET"); //This is to tell the DataServer that this Socket was created by a JS WebSocket
             out.flush();
             
             while(true){
                 //this.session.getBasicRemote().sendObject(in.readLine());
-                this.session.getBasicRemote().sendObject(in.readObject());
+                this.session.getBasicRemote().sendObject(in.readObject()); //This is where the magic happens. Realtime updates. 
+                                        //As soon as a sensor sends something to the DataServer, this 'WebService' sends it back as a message to the JS WebSocket.
                 //Thread.sleep(3000);
                 
             }

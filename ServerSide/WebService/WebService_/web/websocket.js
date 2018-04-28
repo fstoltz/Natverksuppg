@@ -1,29 +1,80 @@
 var ws;
 
+var value;
+var name;
+var pastColon = 0;
+
+var dataSenders = [];
 
 function handleMessage(event){
-    console.log("Received: " + event.data);
+    //får in ett värde varje gång,
+    //Tiitar på strängen fram till :
+    
+    //Titta i dataSenderlistan
+    //finns namnet ?
+    //ja lägg in strängen på samma ställe
+    //nej addera strängen till dataSenrers listan
+    
+    ///Skriver ut varje element i listan.
+    //Klä
+    /*
+    for name in dataSenders
+        om event.Namnet finns i dataSenders
+            uppdatera dens värde
+        annars
+            lägg till den i dataSenders
+            samt skriv nytt värde..
+           
+    
+    
+    dataSenders.add(dataSändarensNamn)
+    
+    */
+    
+    var entry = document.createElement("h3");
+    entry.innerHTML = event.data;
+    var realTimeDiv = document.getElementById("realTimeValues");
+    
+    realTimeDiv.insertBefore(entry, realTimeDiv.childNodes[0]);
 }
+
 
 
 
 function connect(){
     ws = new WebSocket("ws://2.248.81.16:8080/WebService_new/panel");
     console.log("Connected to WebSocket!");
-    ws.onmessage = function(event){
-        console.log(event);
-        console.log(event.data);
-    }
+    ws.onmessage = handleMessage;
 }
 
 
 
 
+/*
+ } else { //it's a normal update
+        console.log(json.length);
+        var j;
+        var list = document.getElementById("realTime");
+        var sq = document.getElementById("everything")
+        if(pressedConnect == 1){
+            
+            for(j = 0; j < json.length;){
+                var realTimeEntry = document.createElement("p");
+                var data = document.createTextNode(json[j] + "  " + json[j+1]);
+                realTimeEntry.id = numberOfEntries;
+                realTimeEntry.className = "realTimeValues";
+                realTimeEntry.appendChild(data);
+                var linebreak = document.createElement("br");
+                realTimeEntry.appendChild(linebreak);
+                //document.body.appendChild(btn);
+                list.insertBefore(realTimeEntry, list.childNodes[0]);
+                j = j + 2; //because we want to jump two steps each iteration. --Name Value-- --Name Value---
+                numberOfEntries++;
+            }
+            var realTimeHeader = document.createElement("h2");
 
 
-
-
-
+*/
 
 
 
