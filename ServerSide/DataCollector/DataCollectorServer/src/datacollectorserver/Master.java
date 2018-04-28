@@ -8,17 +8,21 @@ public class Master {
     //list of outstreams to the instreams at EndpointUpdater(websockets)
     List<ObjectOutputStream> listOfOutStreams = new ArrayList<>();
     
+    /*debug attempt1:
+    removing synchronized from both methods*/
+    
     
     //added synchronized because several object might calll this method at the same time
-    synchronized public void addOutputStream(ObjectOutputStream newStream){
+    public void addOutputStream(ObjectOutputStream newStream){
         this.listOfOutStreams.add(newStream);
     }
     
     
     //added synchronized because several object might calll this method at the same time
-    synchronized public void sendToEveryone(String clientString) throws IOException{
+    public void sendToEveryone(String clientString) throws IOException{
         int count = 0;
         for (ObjectOutputStream out : this.listOfOutStreams) {
+            System.out.println("clientString: " + clientString);
             out.writeObject(clientString);
             out.flush();
             count++;
