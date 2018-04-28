@@ -2,7 +2,7 @@ var ws;
 
 
 function connect(){
-    ws = new WebSocket("ws://2.248.81.16:8080/WebService_/panel");
+    ws = new WebSocket("ws://2.248.81.16:8080/WebService_new/panel");
     console.log("Connected to WebSocket!");
     ws.onmessage = handleMessage;
 }
@@ -11,6 +11,30 @@ function connect(){
 function handleMessage(event){
     console.log("Received: " + event.data);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*var ws;
 var pressedConnect = 0;

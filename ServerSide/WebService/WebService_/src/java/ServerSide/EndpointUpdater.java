@@ -59,15 +59,16 @@ public class EndpointUpdater implements Runnable{
             //Create a socket to the DataCollectorServer
             Socket s = new Socket(InetAddress.getByName("huerty.com"), 44321);
             //We only want to get input from this socket
+            PrintWriter out = new PrintWriter(s.getOutputStream());
             BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
             
-            PrintWriter out = new PrintWriter(s.getOutputStream());
             out.println("WEBSOCKET");
             out.flush();
             
             while(true){
                 this.session.getBasicRemote().sendObject(in.readLine());
                 //Thread.sleep(3000);
+                
             }
         } catch (Exception e) {
             e.printStackTrace();
