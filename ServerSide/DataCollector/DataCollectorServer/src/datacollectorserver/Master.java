@@ -7,7 +7,7 @@ import java.io.*;
 public class Master {
     //list of outstreams to the instreams at EndpointUpdater(websockets)
     List<ObjectOutputStream> listOfOutStreams = new ArrayList<>();
-    
+    List<Socket> listOfSockets = new ArrayList<>();
     /*debug attempt1:
     removing synchronized from both methods*/
     
@@ -35,6 +35,7 @@ public class Master {
         } catch (SocketException se) { //Incase a Broken Pipe Socket Exception is generated, we assume it's because the browser client has closed the connection and this outstream is not 'active' anymore
             se.printStackTrace();
             this.listOfOutStreams.remove(tmp); //remove this outstream from the list because it's no longer 'active'
+            tmp.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
