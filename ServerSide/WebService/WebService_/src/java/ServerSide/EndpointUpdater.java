@@ -14,6 +14,7 @@ import java.sql.Statement;
 
 public class EndpointUpdater implements Runnable{
     private Session session;
+    public boolean running = true;
     //private static final Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/sensorlogs", "root", "nacka17");
     
     synchronized public String getCurrentSQLValues() throws SQLException, ClassNotFoundException{
@@ -67,14 +68,18 @@ public class EndpointUpdater implements Runnable{
             
             out.println("WEBSOCKET"); //This is to tell the DataServer that this Socket was created by a JS WebSocket
             out.flush();
-            
-            while(true){
+            while(this.session.isOpen()){
                 //this.session.getBasicRemote().sendObject(in.readLine());
-                this.session.getBasicRemote().sendObject(in.readObject()); //This is where the magic happens. Realtime updates. 
+                String read = (String) in.readObject();
+                this.session.getBasicRemote().sendObject(read); //This is where the magic happens. Realtime updates. 
                                         //As soon as a sensor sends something to the DataServer, this 'WebService' sends it back as a message to the JS WebSocket.
                 //Thread.sleep(3000);
-                
+                //s.close();
+                //if(this.running == false){ //if the clientendpoint class has set running to false because of a "onClose" event
+                //    s.close();
+                //}
             }
+            s.close(); //if the session was closed by 'onClose' in ClientEndpoint then close the socket to the dataserver!
         } catch (Exception e) {
             e.printStackTrace();
         }

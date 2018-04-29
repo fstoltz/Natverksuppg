@@ -11,6 +11,7 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 import javax.websocket.EncodeException;
@@ -20,6 +21,9 @@ import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
+import java.net.*;
+import java.util.*;
+import java.io.*;
 
 /*
 This class will work as the WebService, it will return generated content
@@ -35,8 +39,7 @@ public class ClientEndpoint {
     private Session session;
     //static here means that all objects will share the same variable, meaning everyone has access to the List of connected clients
     private static final Set<ClientEndpoint> endpoints = new CopyOnWriteArraySet<>();
-    
-    
+    public static List<EndpointUpdater> endpList = new ArrayList<>();
     
     @OnOpen
     public void onOpen(Session session) throws IOException{
@@ -46,6 +49,7 @@ public class ClientEndpoint {
         this.session = session;
         endpoints.add(this);
         EndpointUpdater endpUpdater = new EndpointUpdater(session);
+        endpList.add(endpUpdater);
         Thread endpUpdaterThread = new Thread(endpUpdater);
         endpUpdaterThread.start();
     }
@@ -64,7 +68,7 @@ public class ClientEndpoint {
         ArrayList<String> result = new ArrayList<>(); //this will be sent to the JavaScript websocket
         
         result.add("HISTORY_INC");
-        
+
         String name;
         double val;
         Timestamp date;
@@ -87,8 +91,11 @@ public class ClientEndpoint {
     }
     
     @OnClose
-    public void onClose(Session session){
+    public void onClose(Session session) throws IOException{
         /*The code enters here when a client closes their window/application(i think)*/
+        endpoints.remove(this.session);
+        this.session.close();
+        //set running to false for the specific endpointupdater
     }
     
     @OnError

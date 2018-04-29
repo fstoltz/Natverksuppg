@@ -31,6 +31,12 @@ function handleMessage(event){
     
     */
     
+    var i;
+    for(i = 0; i < event.data.length; i++){
+        console.log(event.data.charAt(i));
+    }
+    
+    
     var entry = document.createElement("h3");
     entry.innerHTML = event.data;
     var realTimeDiv = document.getElementById("realTimeValues");
