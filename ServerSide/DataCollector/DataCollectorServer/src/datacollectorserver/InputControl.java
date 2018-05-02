@@ -23,7 +23,7 @@ public class InputControl implements Runnable{
                     System.out.println("***************************************************");
                     System.out.println("*           SAFELY EXITING PROGRAM...             *");
                     System.out.println("***************************************************");
-                    this.m.closeAllStreams(); //close all sockets
+                    this.m.closeAllSockets(); //close all sockets
                     System.exit(0); //then terminate the whole programs and all threads
                 } else {
                     System.out.println("Please enter 'QUIT' to safely exit program.");
