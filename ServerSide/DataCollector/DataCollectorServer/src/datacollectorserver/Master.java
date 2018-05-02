@@ -11,6 +11,17 @@ public class Master {
     /*debug attempt1:
     removing synchronized from both methods*/
     
+    public void closeAllSockets() throws IOException{
+        for(int i = 0; i < this.listOfSockets.size(); i++){
+            this.listOfSockets.get(i).close(); //runs the close method for all sockets, terminating each TCP connection properly
+        }
+        this.listOfOutStreams.clear();
+        this.listOfSockets.clear();
+    }
+    
+    public void addSocket(Socket s){
+        this.listOfSockets.add(s);
+    }
     
     //added synchronized because several object might calll this method at the same time
     public void addOutputStream(ObjectOutputStream newStream){

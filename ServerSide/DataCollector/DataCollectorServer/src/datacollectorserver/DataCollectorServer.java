@@ -21,15 +21,20 @@ public class DataCollectorServer {
     SQLHandle sqlHandle;
     ServerSocket serverSocket;
     Master m;
+    InputControl ic;
     
     public DataCollectorServer() throws SQLException{
         this.sqlHandle = new SQLHandle();
         this.m = new Master();
+        this.ic = new InputControl(this.m);
     }
     
     
     public void startServer() throws IOException{
         this.serverSocket = new ServerSocket(this.listeningPort);
+        Thread icThread = new Thread(this.ic);
+        icThread.start();
+        System.out.println("Started InputControl thread..");
         
         while(true){
             System.out.println("> Listening on "+this.listeningPort+"...");

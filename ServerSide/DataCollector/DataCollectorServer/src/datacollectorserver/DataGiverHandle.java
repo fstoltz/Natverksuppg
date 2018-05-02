@@ -33,6 +33,8 @@ public class DataGiverHandle implements Runnable{
         
         this.in = new BufferedReader(new InputStreamReader(this.dataGiverSocket.getInputStream()));
         this.m = m;
+        
+        this.m.addSocket(dataGiverSocket); //add all sockets to this list, both webjssocket ones and featherdata ones
         /*Create a socket outstream here with port 45000, when something gets in, send
         it to localhost at 45000 and also write it to the sql history table*/
     }
