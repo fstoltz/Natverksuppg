@@ -1,7 +1,7 @@
 #include <ESP8266WiFi.h>
 
-#define ssid  "anton"
-#define pwd  "nackademin"
+#define ssid  "kakao"
+#define pwd  "KalleAnka123"
 WiFiClient client;
 int listeningPort = 44321;
 IPAddress connect_2(2,248,81,16);
@@ -49,6 +49,9 @@ void connectToServer(){
 
 
 void loop() {
+  client.read();
+  Serial.println("start of loop");
+  Serial.println(client.connected());
 if((client.connected()) == false){
   connectToServer();
 } else {
