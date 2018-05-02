@@ -1,13 +1,25 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <style>
+            * {
+                background-color: #000066;
+                color: white;
+            }
+            .realTime {
+                color: white;
+                font-family: "Consolas";
+            }
+        </style>
+        <script src="websocket.js"></script>
         <title>IoT17</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="websocket.js"></script>
     </head>
     <body>
+
         <div></div>
+        
         <button id="connectButton" class="button" onclick="connect()">Connect</button>
         <div id="realTimeValues">
         </div>

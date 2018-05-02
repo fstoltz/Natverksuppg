@@ -3,10 +3,17 @@ var ws;
 var value;
 var name;
 var pastColon = 0;
-
+var connected = 0;
 var dataSenders = [];
 
+
+
+
+
+
+
 function handleMessage(event){
+    
     //får in ett värde varje gång,
     //Tiitar på strängen fram till :
     
@@ -30,27 +37,62 @@ function handleMessage(event){
     dataSenders.add(dataSändarensNamn)
     
     */
-    
+    var pastColon = false;
+    var name = "";
+    var value = "";
     var i;
+    var c;
     for(i = 0; i < event.data.length; i++){
         console.log(event.data.charAt(i));
+        c = event.data.charAt(i);
+        if(pastColon == true){
+            value += c;
+            continue;
+        }
+        if(c == ':'){
+            pastColon = true;
+        } else {
+            name += c;
+        }
+        //name += c;
+        
+    }
+    console.log("NAME: " + String(name));
+    console.log("VALUE: " + String(value));
+    
+    if((document.getElementById(name)) == null){
+        var p = document.createElement("p"); // Create a <p> element
+        p.id = name;
+        p.className = "realTime";
+        var t = document.createTextNode(name + " ");       // Create a text node
+        var t2 = document.createTextNode(value);       // Create a text node
+        p.appendChild(t);                                // Append the text to <button>
+        p.appendChild(t2);
+        document.body.appendChild(p);                    // Append <p> to <body>
+    } else {
+        var element = document.getElementById(name);
+        element.innerHTML = name + " " + value;
     }
     
-    
-    var entry = document.createElement("h3");
+    /*var entry = document.createElement("h3");
     entry.innerHTML = event.data;
     var realTimeDiv = document.getElementById("realTimeValues");
     
-    realTimeDiv.insertBefore(entry, realTimeDiv.childNodes[0]);
+    realTimeDiv.insertBefore(entry, realTimeDiv.childNodes[0]);*/
 }
 
 
 
 
 function connect(){
-    ws = new WebSocket("ws://2.248.81.16:8080/WebService_new/panel");
-    console.log("Connected to WebSocket!");
-    ws.onmessage = handleMessage;
+    if(connected == 0){
+        ws = new WebSocket("ws://2.248.81.16:8080/WebService_new/panel");
+        console.log("Connected to WebSocket!");
+        ws.onmessage = handleMessage;
+        document.getElementById("connectButton").innerHTML = "Connected!";
+        document.getElementById("connectButton").style = "color:cyan";
+        connected = 1;
+    }
 }
 
 
