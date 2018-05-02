@@ -1,7 +1,7 @@
 #include <ESP8266WiFi.h>
 
-#define ssid  "TeliaGateway9C-97-26-57-05-5B"
-#define pwd  "226DFC4358"
+#define ssid  "anton"
+#define pwd  "nackademin"
 WiFiClient client;
 int listeningPort = 44321;
 IPAddress connect_2(2,248,81,16);
@@ -29,23 +29,45 @@ void setup(){
   
 }
 
-void loop()       //main loop
 
-{
-int analogValue = analogRead(outputpin);
-float millivolts = (analogValue/1024.0) * 3300; //3300 is the voltage provided by NodeMCU
-float celsius = millivolts/10;
-Serial.print("in DegreeC=   ");
-Serial.println(celsius);
+void connectToServer(){
+  boolean status = false;
+  while(status == false){
+    Serial.println("Trying to connect...");
+    if((client.connect(connect_2,listeningPort)) == true){
+      status = true;
+      Serial.println("Connected again!");
+    }
+    delay(5000);
+  }
+  /*while(!client.connect(connect_2,listeningPort)){
+    delay(8000);
+    Serial.println("Loopar runt...");
+  }
+  Serial.println("Kopplade upp mig!");*/
+}
 
-//---------- Here is the calculation for Fahrenheit ----------//
 
-float fahrenheit = ((celsius * 9)/5 + 32);
-Serial.print(" in Farenheit=   ");
-Serial.println(fahrenheit);
+void loop() {
+if((client.connected()) == false){
+  connectToServer();
+} else {
+  int analogValue = analogRead(outputpin);
+  float millivolts = (analogValue/1024.0) * 3300; //3300 is the voltage provided by NodeMCU
+  float celsius = millivolts/10;
+  Serial.print("in DegreeC=   ");
+  Serial.println(celsius);
+  
+  //---------- Here is the calculation for Fahrenheit ----------//
+  
+  float fahrenheit = ((celsius * 9)/5 + 32);
+  //Serial.print(" in Farenheit=   ");
+  //Serial.println(fahrenheit);
   digitalWrite(LED_BUILTIN, LOW);
   client.println(namn+":"+celsius);
   digitalWrite(LED_BUILTIN, HIGH);
+  boolean val = client.connected();
+  Serial.println(val);
   delay(2000);
-//delay(1000);
+  }
 }
