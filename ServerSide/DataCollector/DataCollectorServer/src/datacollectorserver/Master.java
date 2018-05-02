@@ -11,10 +11,16 @@ public class Master {
     /*debug attempt1:
     removing synchronized from both methods*/
     
-    public void closeAllSockets() throws IOException{
-        for(int i = 0; i < this.listOfSockets.size(); i++){
-            this.listOfSockets.get(i).close(); //runs the close method for all sockets, terminating each TCP connection properly
+    public void closeAllStreams() throws IOException{
+        System.out.println(">>> ATTEMPTING TO CLOSE OUTPUTSTREAMS...");
+        int i = 0;
+        for(ObjectOutputStream out : this.listOfOutStreams){
+            out.flush();
+            out.close();
+            System.out.println("Stream: " + i + " closed.");
+            i++;
         }
+        System.out.println(">>> CLOSED ALL STREAMS.");
         this.listOfOutStreams.clear();
         this.listOfSockets.clear();
     }
