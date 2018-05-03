@@ -1,7 +1,7 @@
 #include <ESP8266WiFi.h>
 
-#define ssid  "kakao"
-#define pwd  "KalleAnka123"
+#define ssid  "anton"
+#define pwd  "nackademin"
 WiFiClient client;
 int listeningPort = 44321;
 IPAddress connect_2(2,248,81,16);
