@@ -8,11 +8,24 @@ var dataSenders = [];
 
 
 
-
+function sendName(){
+    var name;
+    name = document.getElementById("searchTxt").value;
+    console.log(document.getElementById("searchTxt").value);
+    
+    
+    var myObj = { "sensorName":name };
+    var myJSON = JSON.stringify(myObj);
+    console.log(myJSON);
+    ws.send(myJSON);
+    
+}
 
 
 
 function handleMessage(event){
+    console.log(event);
+    console.log(event.data);
     
     //får in ett värde varje gång,
     //Tiitar på strängen fram till :

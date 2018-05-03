@@ -1,6 +1,11 @@
 package ServerSide;
 
+import javax.json.*;
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonReader;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
@@ -24,6 +29,7 @@ import javax.websocket.server.ServerEndpoint;
 import java.net.*;
 import java.util.*;
 import java.io.*;
+import javax.json.Json;
 
 /*
 This class will work as the WebService, it will return generated content
@@ -54,6 +60,26 @@ public class ClientEndpoint {
         endpUpdaterThread.start();
     }
     
+    /*
+        @OnMessage
+    public void handleMessage(String message, Session session) {
+        System.out.println("Well here i am");
+        try (JsonReader reader = Json.createReader(new StringReader(message))) {
+            
+            JsonObject jsonMessage = reader.readObject();
+            
+            if("toggle".equals(jsonMessage.getString("action"))){
+                System.out.println("I came here");
+                device.toggle();
+                this.broadcast();
+                //Broadcast this change to all connected clients
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }*/
+    
+    
     @OnMessage
     public void onMessage(String message, Session session) throws IOException, EncodeException, SQLException{
         /*This method will probably be the place where
@@ -61,12 +87,20 @@ public class ClientEndpoint {
         the client, and then we retreive values from the SQL
         database and send these back to the client(using sendToEndpoint)
         where DOM manipulation is made to fill the html table with relevant data*/
+        String username = "";
+        try (javax.json.JsonReader reader = Json.createReader(new StringReader(message))) {
+            javax.json.JsonObject jsonMessage = reader.readObject();
+            username = jsonMessage.getString("sensorName");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        
         Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/sensorlogs?autoReconnect=true&useSSL=false", "iot17", "nackademin123");
         Statement stmt = (Statement) con.createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT * FROM tempdata;");
+        ResultSet rs = stmt.executeQuery("SELECT * FROM tempdata WHERE name='"+username+"';");
         
         ArrayList<String> result = new ArrayList<>(); //this will be sent to the JavaScript websocket
-        
         result.add("HISTORY_INC");
 
         String name;
