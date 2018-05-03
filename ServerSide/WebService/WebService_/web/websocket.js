@@ -34,6 +34,14 @@ function sendName(){
 
 
 function handleMessage(event){
+    //var title = document.getElementById("title");
+    //var btn = document.createElement("BUTTON");        // Create a <button> element
+    //btn.id = "loading";
+    //var t = document.createTextNode("CLICK ME");       // Create a text node
+    //btn.appendChild(t);                                // Append the text to <button>
+    //title.appendChild(btn);                    // Append <button> to <body>
+    
+    
     json = JSON.parse(event.data);
     console.log(event);
     console.log(event.data);
@@ -116,9 +124,13 @@ function handleMessage(event){
         p.appendChild(t2);
         var element = document.getElementById("realTimeValues");
         element.appendChild(p);                    // Append <p> to <body>
+        var child = document.getElementById("loading");
+        child.parentNode.removeChild(child);
     } else {
         var element = document.getElementById(name);
         element.innerHTML = name + " " + value;
+        //var child = document.getElementById("loading");
+        //child.parentNode.removeChild(child);
     }
     
     /*var entry = document.createElement("h3");
@@ -138,7 +150,7 @@ function connect(){
         console.log("Connected to WebSocket!");
         ws.onmessage = handleMessage;
         document.getElementById("connectButton").innerHTML = "Connected!";
-        document.getElementById("connectButton").style = "color:cyan";
+        document.getElementById("connectButton").style = "color:#00ff00";
         connected = 1;
     }
 }

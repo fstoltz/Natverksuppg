@@ -98,7 +98,8 @@ public class ClientEndpoint {
         
         Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/sensorlogs?autoReconnect=true&useSSL=false", "iot17", "nackademin123");
         Statement stmt = (Statement) con.createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT * FROM tempdata WHERE name='"+username+"';");
+        //ResultSet rs = stmt.executeQuery("SELECT * FROM tempdata WHERE name='"+username+"';");
+        ResultSet rs = stmt.executeQuery("SELECT MIN(timestamp) as timestamp, MIN(name) as name, MIN(value) as value FROM tempdata WHERE name='"+username+"' GROUP BY DATE(timestamp), HOUR(timestamp);");
         
         ArrayList<String> result = new ArrayList<>(); //this will be sent to the JavaScript websocket
         result.add("HISTORY_INC");

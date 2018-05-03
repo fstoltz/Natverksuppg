@@ -5,23 +5,42 @@
             * {
                 background-color: #000066;
                 color: white;
+                font-family:"Consolas";
             }
             .realTime {
                 color: white;
-                font-family: "Consolas";
-                font-size: 2.6em;
+                font-size: 2.4em;
+                text-shadow: 4px 4px 16px #00ffff;
             }
             
-            #connectButton {
-                font-size: 2em;
+            .button {
+                font-size: 1.6em;
+                background-color: black; /* Green */
+                border: none;
+                color: white;
+                padding: 10px 25px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 1.5em;
             }
+            
+            
             
             #historyTable tr, td {
                 font-size: 1.2em;
-                font-family:"Tahoma";
+                font-family:"Trebuchet MS";
                 color: yellow;
                 border: 2px solid gray;
                 border-radius: 2px;
+            }
+            
+            input {
+                font-size:1.6em;
+            }
+            
+            #main {
+                margin-left: 25%;
             }
         </style>
         <script src="websocket.js"></script>
@@ -30,18 +49,18 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-
-        <div></div>
-        <input name="searchTxt" type="text" maxlength="512" id="searchTxt" class="searchField"/>
+        <div id="main">
+        <h1 id="title" style="text-shadow: 4px 4px 16px white; font-family:'Calibri';">Temperature Monitor Panel</h1>
+        <button id="connectButton" class="button" onclick="connect()">Connect</button><br>
+        History-retrieval: <input placeholder="ex. Hampus" name="searchTxt" type="text" maxlength="512" id="searchTxt" class="searchField"/>
         <button id="searchButton" class="button" onclick="sendName()">Search</button>
-        <button id="connectButton" class="button" onclick="connect()">Connect</button>
         <div id="realTimeValues">
         </div>
         
         
         <table id="historyTable">
         </table>
-        
+        </div>
     </body>
 </html>
 
