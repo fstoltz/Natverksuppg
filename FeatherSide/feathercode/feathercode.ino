@@ -21,7 +21,7 @@ void setup(){
   }
   Serial.println("Du ar nu ansluten till natverket!");
   
-  if(client.connect(connect_2,listeningPort)){
+  if(client.connect("huerty.com",listeningPort)){
     Serial.print("Du ar nu ansluten till: ");
     Serial.print(connect_2);
   }
@@ -34,25 +34,34 @@ void connectToServer(){
   boolean status = false;
   while(status == false){
     Serial.println("Trying to connect...");
-    if((client.connect(connect_2,listeningPort)) == true){
+    if((client.connect("huerty.com",listeningPort)) == true){
       status = true;
       Serial.println("Connected again!");
     }
     delay(5000);
   }
-  /*while(!client.connect(connect_2,listeningPort)){
+  /*while(!client.connect("huerty.com",listeningPort)){
     delay(8000);
     Serial.println("Loopar runt...");
   }
   Serial.println("Kopplade upp mig!");*/
 }
 
+void retryWifi(){
+  Serial.println("Attempting to reconnect to WiFi.");
+  WiFi.begin(ssid,pwd);
+  while(WiFi.status() != WL_CONNECTED){
+    Serial.print(".");
+    delay(1000);
+  }
+}
 
 void loop() {
   client.read();
   Serial.println("start of loop");
   Serial.println(client.connected());
-if((client.connected()) == false){
+if((client.connected()) == false || WiFi.status() != WL_CONNECTED){
+  retryWifi();
   connectToServer();
 } else {
   int analogValue = analogRead(outputpin);
