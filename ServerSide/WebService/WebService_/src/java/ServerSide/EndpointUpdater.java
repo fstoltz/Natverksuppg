@@ -71,7 +71,13 @@ public class EndpointUpdater implements Runnable{
             while(this.session.isOpen()){
                 //this.session.getBasicRemote().sendObject(in.readLine());
                 String read = (String) in.readObject();
-                this.session.getBasicRemote().sendObject(read); //This is where the magic happens. Realtime updates. 
+                
+                Gson gson = new Gson();
+                ArrayList<String> data = new ArrayList<>();
+                data.add(read);
+                String jsonData = gson.toJson(data);
+                
+                this.session.getBasicRemote().sendObject(jsonData); //This is where the magic happens. Realtime updates. 
                                         //As soon as a sensor sends something to the DataServer, this 'WebService' sends it back as a message to the JS WebSocket.
                 //Thread.sleep(3000);
                 //s.close();

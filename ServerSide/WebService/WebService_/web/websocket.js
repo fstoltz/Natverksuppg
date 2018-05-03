@@ -6,7 +6,17 @@ var pastColon = 0;
 var connected = 0;
 var dataSenders = [];
 
-
+function addRows(name, val, timestamp) {
+    var table = document.getElementById("historyTable");
+    var row = table.insertRow(0);
+    var cell1 = row.insertCell(0);
+    var cell2 = row.insertCell(1);
+    var cell3 = row.insertCell(2);
+    cell1.innerHTML = name;
+    cell2.innerHTML = val;
+    cell2.id = "tempVal";
+    cell3.innerHTML = timestamp;
+}
 
 function sendName(){
     var name;
@@ -24,8 +34,28 @@ function sendName(){
 
 
 function handleMessage(event){
+    json = JSON.parse(event.data);
     console.log(event);
     console.log(event.data);
+    
+    if(json[0] == "HISTORY_INC"){
+        //handle building up a table etc, filling with data
+        var index = json.indexOf("HISTORY_INC");  //Removes the "HISTORY_INC" element from the array
+        if (index > -1) {
+            json.splice(index, 1);
+        }
+
+        console.log(json);
+        var numberOfRows = (json.length/3);
+        var i;
+        for(i = 0; i < json.length;){
+            addRows(json[i], json[i+1], json[i+2]);
+            i = i + 3;
+        }
+        
+    } else { //it's a normal update
+        console.log("NORMAL UPDATE");
+    
     
     //får in ett värde varje gång,
     //Tiitar på strängen fram till :
@@ -81,7 +111,8 @@ function handleMessage(event){
         var t2 = document.createTextNode(value);       // Create a text node
         p.appendChild(t);                                // Append the text to <button>
         p.appendChild(t2);
-        document.body.appendChild(p);                    // Append <p> to <body>
+        var element = document.getElementById("realTimeValues");
+        element.appendChild(p);                    // Append <p> to <body>
     } else {
         var element = document.getElementById(name);
         element.innerHTML = name + " " + value;
@@ -92,6 +123,7 @@ function handleMessage(event){
     var realTimeDiv = document.getElementById("realTimeValues");
     
     realTimeDiv.insertBefore(entry, realTimeDiv.childNodes[0]);*/
+    }
 }
 
 

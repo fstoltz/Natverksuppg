@@ -15,6 +15,14 @@
             #connectButton {
                 font-size: 2em;
             }
+            
+            #historyTable td {
+                font-size: 1.2em;
+                font-family:"Tahoma";
+                color: yellow;
+                border: 1px solid cyan;
+                border-radius: 5px;
+            }
         </style>
         <script src="websocket.js"></script>
         <title>IoT17</title>
@@ -29,6 +37,10 @@
         <button id="connectButton" class="button" onclick="connect()">Connect</button>
         <div id="realTimeValues">
         </div>
+        
+        <table id="historyTable">
+        </table>
+        
     </body>
 </html>
 
