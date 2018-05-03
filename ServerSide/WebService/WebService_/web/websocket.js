@@ -88,6 +88,9 @@ function handleMessage(event){
     for(i = 0; i < event.data.length; i++){
         console.log(event.data.charAt(i));
         c = event.data.charAt(i);
+        if(c == '[' || c == ']' || c == '"'){
+            continue;
+        }
         if(pastColon == true){
             value += c;
             continue;
