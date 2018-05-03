@@ -42,16 +42,26 @@ public class Master {
             
             for (ObjectOutputStream out : this.listOfOutStreams) {
                 //System.out.println("clientString: " + clientString);
-                tmp = out; //keep track of the outstream incase a exception is thrown
-                out.writeObject(clientString);
-                out.flush();
-                count++;
+                try {
+                    tmp = out; //keep track of the outstream incase a exception is thrown
+                    out.writeObject(clientString);
+                    out.flush();
+                    count++;
+                } catch (Exception e) {
+                    System.out.println("This is here1.");
+                    e.printStackTrace();
+                }
+                //tmp = out; //keep track of the outstream incase a exception is thrown
+                //out.writeObject(clientString);
+                //out.flush();
+                //count++;
             }
         System.out.println("> Sent a message to " + count + " streams.\n");
-        } catch (SocketException se) { //Incase a Broken Pipe Socket Exception is generated, we assume it's because the browser client has closed the connection and this outstream is not 'active' anymore
-            se.printStackTrace();
-            this.listOfOutStreams.remove(tmp); //remove this outstream from the list because it's no longer 'active'
-            tmp.close();
+        //} //catch (SocketException se) { //Incase a Broken Pipe Socket Exception is generated, we assume it's because the browser client has closed the connection and this outstream is not 'active' anymore
+            //System.out.println("This is here.2");
+            //se.printStackTrace();
+            //this.listOfOutStreams.remove(tmp); //remove this outstream from the list because it's no longer 'active'
+           // tmp.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
