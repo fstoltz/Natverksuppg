@@ -36,19 +36,26 @@ public class Master {
     
     //added synchronized because several object might calll this method at the same time
     public void sendToEveryone(String clientString) throws IOException{
-        ObjectOutputStream tmp = null;
+        //ObjectOutputStream tmp = null;
         try {
             int count = 0;
             
             for (ObjectOutputStream out : this.listOfOutStreams) {
                 //System.out.println("clientString: " + clientString);
                 try {
-                    tmp = out; //keep track of the outstream incase a exception is thrown
+                    //tmp = out; //keep track of the outstream incase a exception is thrown
                     out.writeObject(clientString);
                     out.flush();
                     count++;
-                } catch (Exception e) {
+                } catch (SocketException se) {
                     System.out.println("This is here1.");
+                    this.listOfOutStreams.remove(out);
+                    out.close();
+                    se.printStackTrace();
+                } catch (Exception e) {
+                    System.out.println("Eaaww.");
+                    this.listOfOutStreams.remove(out);
+                    out.close();
                     e.printStackTrace();
                 }
                 //tmp = out; //keep track of the outstream incase a exception is thrown
