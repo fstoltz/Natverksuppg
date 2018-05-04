@@ -33,52 +33,32 @@ import javax.json.Json;
 
 /*
 This class will work as the WebService, it will return generated content
-to the webbrowser, this data is retrieved from the MySQL Server.
+to the webbrowser, this data is retrieved from the MySQL Server / DataServer.
 
-This service will automatically retrieve latest values from the SQL tables
+OLD--->This service will automatically retrieve latest values from the SQL tables
 every 10 seconds(?) and broadcast it to all connected clients. This way all
 browsers will view real-time data coming from the sensors. The clients will
 receive the updates via JavaScript websockets and DOM manipulation.
+
+NEW--->A thread is created at onOpen and this thread performs interprocess communication via TCP/IP
+on the local machine to the DataServer, the thread is always listening for messages and proxies each message received
+directly to the JavaScript WebSocket, thereby achieving close to real-time updates at the browser.
 */
 @ServerEndpoint("/panel")
 public class ClientEndpoint {
     private Session session;
     //static here means that all objects will share the same variable, meaning everyone has access to the List of connected clients
     private static final Set<ClientEndpoint> endpoints = new CopyOnWriteArraySet<>();
-    public static List<EndpointUpdater> endpList = new ArrayList<>();
     
     @OnOpen
     public void onOpen(Session session) throws IOException{
-        /*Maybe here we could start a create a new object that takes care of
-        the continues updates to the client. Another class that implements Runnable
-        */
+        /*Takes care of starting a new thread that handles real-time updates for that session*/
         this.session = session;
         endpoints.add(this);
-        EndpointUpdater endpUpdater = new EndpointUpdater(session);
-        endpList.add(endpUpdater);
-        Thread endpUpdaterThread = new Thread(endpUpdater);
-        endpUpdaterThread.start();
+        EndpointUpdater endpUpdater = new EndpointUpdater(session); //Create a endpointupdater, give access to the session object
+        Thread endpUpdaterThread = new Thread(endpUpdater); //Creates a new thread
+        endpUpdaterThread.start(); //Initiates the 'run' method
     }
-    
-    /*
-        @OnMessage
-    public void handleMessage(String message, Session session) {
-        System.out.println("Well here i am");
-        try (JsonReader reader = Json.createReader(new StringReader(message))) {
-            
-            JsonObject jsonMessage = reader.readObject();
-            
-            if("toggle".equals(jsonMessage.getString("action"))){
-                System.out.println("I came here");
-                device.toggle();
-                this.broadcast();
-                //Broadcast this change to all connected clients
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }*/
-    
     
     @OnMessage
     public void onMessage(String message, Session session) throws IOException, EncodeException, SQLException{
@@ -87,6 +67,8 @@ public class ClientEndpoint {
         the client, and then we retreive values from the SQL
         database and send these back to the client(using sendToEndpoint)
         where DOM manipulation is made to fill the html table with relevant data*/
+        
+        //Extract the name of the sensor entered by the browser input form
         String username = "";
         try (javax.json.JsonReader reader = Json.createReader(new StringReader(message))) {
             javax.json.JsonObject jsonMessage = reader.readObject();
@@ -102,7 +84,8 @@ public class ClientEndpoint {
         ResultSet rs = stmt.executeQuery("SELECT MIN(timestamp) as timestamp, MIN(name) as name, MIN(value) as value FROM tempdata WHERE name='"+username+"' GROUP BY DATE(timestamp), HOUR(timestamp);");
         
         ArrayList<String> result = new ArrayList<>(); //this will be sent to the JavaScript websocket
-        result.add("HISTORY_INC");
+        result.add("HISTORY_INC"); //Add this element in order to inform the WebSocket
+                                   //that this message is the result of a history retrieval event
 
         String name;
         double val;
@@ -111,31 +94,29 @@ public class ClientEndpoint {
             name = rs.getString("name");
             val = rs.getDouble("value");
             date = rs.getTimestamp("timestamp");
-            //String together = name + String.valueOf(val);
+            
+            //Adds the values in each row to the array
             result.add(name);
             result.add(String.valueOf(val));
             result.add(date.toString());
         }
-        
-        con.close();
+
+        con.close(); //Close the connection to the MySQL server
         Gson gson = new Gson();
-        String jsonString = gson.toJson(result);
-        
-        //this.session.getBasicRemote().sendObject("HISTORY_INC"); //in order for client to know what type of data is coming
-        this.session.getBasicRemote().sendObject(jsonString); //sending all history
+        String jsonString = gson.toJson(result); //Transform the result arraylist to a JSON string
+        this.session.getBasicRemote().sendObject(jsonString); //sending all history for specific sensor to the WebSocket
     }
     
     @OnClose
     public void onClose(Session session) throws IOException{
-        /*The code enters here when a client closes their window/application(i think)*/
+        /*The code enters here when a client closes their window/application*/
         endpoints.remove(this.session);
-        this.session.close();
-        //set running to false for the specific endpointupdater
+        this.session.close(); //Might be overkill considering it went in here because the WebSocket was closed.
     }
     
     @OnError
     public void onError(Throwable error){
-        /*?Don't know what to use this one for at the moment*/
+        /*NO USAGE AT THE MOMENT*/
     }
     
     public void sendToEndpoint(){
@@ -147,16 +128,4 @@ public class ClientEndpoint {
         and then the WebSocket takes these values and uses them
         for created & filling in an HTML table(or something like that)*/
     }
-    
-    /*
-    I'm thinking we will need a broadcast method here,
-    this method will continue in an infinite loop, 
-    sending latest data to the WebSocket, waiting 10 seconds,
-    then sending another broadcast, and so on to all connected clients.
-    
-    Not sure how this will be implemented, with threads etc.
-    Because the code will always be in this part, meaning it has to run
-    separate from the rest of the 'Endpoint' code I guess..?
-    */
-    
 }
