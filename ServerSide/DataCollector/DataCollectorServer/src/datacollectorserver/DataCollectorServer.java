@@ -10,10 +10,7 @@ import java.sql.SQLException;
 /*This is the file where a serverSocket will be created,
 when a socket is returned, this program will immediately
 instansiate a DataGiverHandle and pass the socket as
-a parameter to the constructor, and go back to listening again.
-
-Potentielly I'll also pass the object that holds the MySQL connection
-to the constructor for the DataGiverHandle aswell.
+a parameter to the constructor and the MySQL object, and go back to listening again.
 */
 
 public class DataCollectorServer {
@@ -33,7 +30,8 @@ public class DataCollectorServer {
     public void startServer() throws IOException{
         this.serverSocket = new ServerSocket(this.listeningPort);
         Thread icThread = new Thread(this.ic);
-        icThread.start();
+        icThread.start(); //This provides functionality for typing 'QUIT' into stdin
+                          //Which will safely close all sockets before closing the program(not necessary)
         System.out.println("Started InputControl thread..");
         
         while(true){
